@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Reader — College Admissions Read</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header">
+  <div class="crest">§</div>
+  <div class="masthead">
+    <h1>The Reader</h1>
+    <p class="masthead-sub">An honest first read on your college file — scored like an admissions committee would score it.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="user-bar hidden" id="user-bar">
+    <span id="user-email"></span>
+    <div class="user-bar-actions">
+      <button type="button" class="link-btn" id="history-btn">History</button>
+      <button type="button" class="link-btn" id="logout-btn">Log out</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="card auth-card" id="auth-section">
+    <h2 class="section-label"><span>00</span> <span id="auth-title">Sign in</span></h2>
+
+    <form id="auth-form">
+      <div class="field">
+        <label for="auth-email">Email</label>
+        <input type="email" id="auth-email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="auth-password">Password</label>
+        <input type="password" id="auth-password" required autocomplete="current-password" minlength="8">
+        <p class="field-hint" id="auth-password-hint">At least 8 characters.</p>
+      </div>
+      <button type="submit" class="submit-btn" id="auth-submit-btn">Sign in</button>
+      <p class="error-msg" id="auth-error-msg"></p>
+    </form>
+
+    <p class="auth-toggle">
+      <span id="auth-toggle-text">Don't have an account?</span>
+      <button type="button" id="auth-toggle-btn" class="link-btn">Create one</button>
+    </p>
+  </section>
+
+</main>
+
+<main class="wrap hidden" id="app-main">
+
+  <section class="card form-card" id="form-section">
+    <h2 class="section-label"><span>01</span> Your file</h2>
+
+
+    <form id="predict-form">
+      <div class="field-row">
+        <div class="field">
+          <label for="gpa">GPA</label>
+          <input type="number" id="gpa" step="0.01" min="0" placeholder="3.85" required>
+        </div>
+        <div class="field field-narrow">
+          <label for="gpaScale">Scale</label>
+          <select id="gpaScale">
+            <option value="4.0">4.0</option>
+            <option value="5.0">5.0 (weighted)</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="testScore">Test score <span class="optional">(optional)</span></label>
+          <input type="text" id="testScore" placeholder="1520">
+        </div>
+        <div class="field field-narrow">
+          <label for="testType">Test</label>
+          <select id="testType">
+            <option value="SAT">SAT</option>
+            <option value="ACT">ACT</option>
+            <option value="None">Test-optional</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="targetMajor">Intended major / interest <span class="optional">(optional)</span></label>
+        <input type="text" id="targetMajor" placeholder="Computer Science">
+      </div>
+
+      <div class="field">
+        <label>Extracurriculars, honors &amp; awards</label>
+        <p class="field-hint">One per line. Be specific — "Founded a 40-member coding club, ran regional workshops" reads very differently from "Coding club member."</p>
+        <div id="activity-list" class="activity-list">
+          <div class="activity-row">
+            <input type="text" class="activity-input" placeholder="e.g. Captain, Varsity Debate — state finalist 2025">
+            <button type="button" class="remove-activity" aria-label="Remove">×</button>
+          </div>
+        </div>
+        <button type="button" id="add-activity" class="ghost-btn">+ Add another</button>
+      </div>
+
+      <div class="field">
+        <label for="notes">Anything else the committee should know? <span class="optional">(optional)</span></label>
+        <textarea id="notes" rows="2" placeholder="Recruited athlete, first-gen, significant work/family responsibilities, etc."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="apiKey">Gemini API key</label>
+        <p class="field-hint">Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>. Stored only in this browser tab.</p>
+        <input type="password" id="apiKey" placeholder="AIza...">
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Get my read</button>
+      <p class="error-msg" id="error-msg"></p>
+    </form>
+  </section>
+
+  <section class="card results-card hidden" id="results-section">
+    <h2 class="section-label"><span>02</span> The read</h2>
+
+    <div class="verdict-row">
+      <div class="stamp" id="stamp">
+        <span class="stamp-score" id="overall-score">–</span>
+        <span class="stamp-label">/ 100</span>
+      </div>
+      <p class="verdict-text" id="overall-verdict"></p>
+    </div>
+
+    <div class="score-block">
+      <div class="score-block-header">
+        <h3>Academic profile</h3>
+        <span class="score-num" id="academic-score">–</span>
+      </div>
+      <div class="bar"><div class="bar-fill" id="academic-bar"></div></div>
+      <p class="score-feedback" id="academic-feedback"></p>
+    </div>
+
+    <div class="score-block">
+      <h3>Extracurriculars</h3>
+      <div id="ec-list" class="ec-list"></div>
+    </div>
+
+    <div class="two-col">
+      <div class="score-block">
+        <h3>Strengths</h3>
+        <ul id="strengths-list" class="pill-list strengths"></ul>
+      </div>
+      <div class="score-block">
+        <h3>To strengthen</h3>
+        <ul id="improvements-list" class="pill-list improvements"></ul>
+      </div>
+    </div>
+
+    <div class="score-block">
+      <h3>Where you likely stand</h3>
+      <div id="tiers-list" class="tiers-list"></div>
+    </div>
+
+    <button type="button" class="ghost-btn" id="reset-btn">Start a new read</button>
+  </section>
+  <section class="card history-card hidden" id="history-section">
+    <h2 class="section-label"><span>—</span> Your history</h2>
+    <div id="history-list" class="history-list"></div>
+    <p class="empty-msg hidden" id="history-empty">No reads yet. Submit your file above to get your first one.</p>
+    <button type="button" class="ghost-btn" id="history-back-btn">Back to form</button>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Not an admissions decision. An AI's best estimate, for perspective only.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
