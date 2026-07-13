@@ -8,6 +8,16 @@ You create an account, enter your GPA, test score, intended major, and a list of
 
 ---
 
+## Screenshots
+
+![Signin page](images/signin.png)
+![Form page](images/form.png)
+![Results page](images/result_1.png)
+![Results page](images/result_2.png)
+![User History page](images/history.png)
+
+---
+
 ## What it actually does
 
 ### 1. Structured, per-item scoring — not one vague number
@@ -52,7 +62,7 @@ college-predictor/
 │   ├── script.js        Client-side state, auth flow, form handling, rendering
 │   └── style.css         Report-card styling
 ├── package.json
-└── .env.example         Template for your Gemini key, JWT secret, model, port
+└── .env                Your Gemini key, JWT secret, model, port (not committed to git)
 ```
 
 ---
@@ -61,7 +71,6 @@ college-predictor/
 
 ```bash
 npm install
-cp .env.example .env   # add your Gemini key + a random JWT_SECRET
 npm start
 ```
-Then open `http://localhost:3000`, sign up, and submit your profile. Full setup details are in `.env.example`'s comments if you get stuck.
+Then open `http://localhost:3000`, sign up, and submit your profile. You'll need a free Gemini API key (get one at [aistudio.google.com/apikey](https://aistudio.google.com/apikey)) — either paste it into the form each time, or set it as an environment variable so it's applied automatically.
