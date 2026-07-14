@@ -8,7 +8,9 @@ You create an account, enter your GPA, test score, intended major, and a list of
 
 ---
 
-## Screenshots
+## Demo and Images
+
+[DEMO LINK](https://drive.google.com/file/d/1lGGBOvd5wkfu8gKa3lxzojMSTxpkAEC9/view?usp=sharing)
 
 ![Signin page](images/signin.png)
 ![Form page](images/form.png)
